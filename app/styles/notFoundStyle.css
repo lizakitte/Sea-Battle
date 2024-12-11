@@ -1,0 +1,29 @@
+h2 {
+    text-align: center;
+    font-size: large;
+    font-weight: 700;
+}
+
+.green-button {
+    display: block;
+    width: 100%;
+    background-color: #4CAF50;
+    color: white;
+    padding: 10px 15px;
+    text-align: center;
+    margin: auto;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+  }
+  
+  .green-button:hover {
+    background-color: #45a049;
+  }
+  
+  .not-found {
+    width: 100%;
+    margin-left: 20%;
+    margin-top: 20px;
+    border-radius: 5px;
+  }
