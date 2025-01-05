@@ -1,12 +1,14 @@
-'use client'
+"use client";
+
 import { signInWithEmailAndPassword, setPersistence, browserSessionPersistence } from "firebase/auth";
 import { getAuth } from 'firebase/auth'
 import { useSearchParams, useRouter } from "next/navigation";
 import "../../../styles/formStyle.css";
-import { useState } from "react";
+import { Suspense, useState } from "react";
+import { app } from "@/app/_lib/firebase";
 
 function Login() {
-    const auth = getAuth();
+    const auth = getAuth(app);
     const params = useSearchParams();
     const router = useRouter();
     const returnUrl = params.get("returnUrl");
@@ -33,7 +35,8 @@ function Login() {
       });
     };
 
-    return ( 
+    return (
+      <Suspense>
         <div className="form-div">
             <h2>Log into your account</h2>
             <form onSubmit={onSubmit}>
@@ -63,6 +66,7 @@ function Login() {
                 <input type="submit" value="Log in"/>
             </form>
         </div>
+        </Suspense>
      );
 }
 

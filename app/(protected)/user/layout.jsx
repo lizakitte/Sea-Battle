@@ -1,6 +1,6 @@
 'use client'
 import { useAuth } from "@/app/lib/firebase/AuthContext";
-import { useLayoutEffect } from "react";
+import { Suspense, useLayoutEffect } from "react";
 import { redirect } from 'next/navigation';
 import { usePathname } from 'next/navigation';
 
@@ -13,9 +13,13 @@ function Protected({children}) {
             redirect(`/user/singin?returnUrl=${returnUrl}`);
         }
     }, []);
-    return ( <>
-    { children }
-    </> );
+    return ( 
+    <>
+    <Suspense>
+        { children }
+    </Suspense>
+    </> 
+    );
 }
 
 export default Protected;
