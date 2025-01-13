@@ -1,24 +1,29 @@
+"use client";
+
 import "../../../styles/formStyle.css";
 
 import { getAuth, createUserWithEmailAndPassword, sendEmailVerification, signOut } from "firebase/auth";
-import { useAuth } from "@/app/lib/firebase/AuthContext";
+import { useAuth } from "@/app/_lib/AuthContext";
 import { useState } from "react";
 
+import { redirect } from "next/navigation";
 
 function Register() {
   const { user } = useAuth();
 
+  const [registerError, setRegisterError] = useState(""); //stan błędów rejestracji
+
   if (user) {
-    return null;
+    return <p>You are already logged in!</p>;
   }
 
   const auth = getAuth();
 
-  const [registerError, setRegisterError] = useState(""); //stan błędów rejestracji
+  const onSubmit = (event) => {
+    event.preventDefault();
 
-  const onSubmit = (data) => {
     // walidacja obu równości haseł
-    createUserWithEmailAndPassword(auth, data.email, data.password)
+    createUserWithEmailAndPassword(auth, event.target.email.value, event.target.password.value)
       .then((userCredential) => {
         console.log("User registered!");
         sendEmailVerification(auth.currentUser).then(() => {
@@ -35,7 +40,7 @@ function Register() {
   return (
     <div className="form-div">
       <h2>Register</h2>
-      <form action="/action_page.php">
+      <form onSubmit={onSubmit}>
         <label htmlFor="email">Email</label>
         <input
           type="email"
@@ -68,7 +73,7 @@ function Register() {
                       strokeWidth="2"
                       d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z" />
                   </svg>
-                  <span>{registerError.message}</span>
+                  <span>{registerError}</span>
                 </div>
               : <></>}
     </div>

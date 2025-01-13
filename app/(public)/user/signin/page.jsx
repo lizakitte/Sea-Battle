@@ -16,13 +16,17 @@ function Login() {
     
     const onSubmit = (e) => {
       e.preventDefault();
-      const email = e.target["name"].value;
+      const email = e.target["email"].value;
       const password = e.target["password"].value;
       setPersistence(auth, browserSessionPersistence)
       .then( () => {
       signInWithEmailAndPassword(auth, email, password)
         .then((userCredential) => {
+          if (!userCredential.user.emailVerified) {
+            router.push("/user/verify");
+          } else {
            router.push(returnUrl ?? "/");
+          }
         })
         .catch((error) => {
           const errorCode = error.code;

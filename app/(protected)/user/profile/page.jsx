@@ -1,15 +1,22 @@
+"use client";
+
 import "../../../styles/formStyle.css";
 
-import { getAuth, createUserWithEmailAndPassword, sendEmailVerification, signOut } from "firebase/auth";
-import { useAuth } from "@/app/lib/firebase/AuthContext";
-import { useState } from "react";
+import { updateProfile } from "firebase/auth";
+import { useAuth } from "@/app/_lib/AuthContext";
+import { useState, Suspense } from "react";
 
 function ProfileForm() {
+  const { user } = useAuth();
 
-    const onSubmit = (data) => {
+  const [error, setError] = useState(null);
+
+    const onSubmit = (event) => {
+      event.preventDefault();
+
         updateProfile(user, {
-          displayName: data.displayName,
-          photoURL: data.photoURL,
+          displayName: event.currentTarget.name.value,
+          photoURL: event.currentTarget.photo.value,
         })
           .then(() => {
             console.log("Profile updated");
@@ -21,17 +28,27 @@ function ProfileForm() {
 
     return ( 
         <Suspense>
-        <div className="form-div">
+          <div style={{display: "flex", flex: "row nowrap", justifyContent: "space-evenly"}}>
+        <div style={{width: "50%"}}>
             <h2>Your profile</h2>
             <form onSubmit={onSubmit}>
                 <label htmlFor="name">Name</label>
-                <input type="name" id="name" name="name" placeholder="Your name.."/>
+                <input type="text" id="name" name="name" defaultValue={user?.displayName} placeholder="Your name.."/>
 
                 <label htmlFor="email">Email</label>
-                <input type="email" id="email" name="email" disabled="true" placeholder="Your email.."/>
+                <input type="email" id="email" name="email" disabled defaultValue={user?.email}/>
 
                 <label htmlFor="photo">Photo</label>
-                <input type="photo" id="photo" name="photo" placeholder="Insert photo.."/>
+                <input type="url" id="photo" name="photo" defaultValue={user?.photoURL} placeholder="Insert photo.."/>
+
+                <label htmlFor="street">Street</label>
+                <input type="address" id="street" name="street" placeholder="Your street.."/>
+
+                <label htmlFor="city">City</label>
+                <input type="text" id="city" name="city" placeholder="Your city.."/>
+
+                <label htmlFor="zip-code">Zip code</label>
+                <input type="url" id="zip-code" name="zip-code" placeholder="Your 🎀🦛.."/>
 
                 {error ?
                 <div role="alert" className="alert alert-error">
@@ -53,6 +70,10 @@ function ProfileForm() {
                 <input type="submit" value="Update"/>
             </form>
         </div>
+        {user?.photoURL
+          ? <img src={user?.photoURL} style={{display: "inline-block", border: "5px solid #333", borderRadius: "100%", width: "300px", height: "300px"}}></img>
+          : <></>}
+          </div>
         </Suspense>
      );
 }

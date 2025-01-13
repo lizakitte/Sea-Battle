@@ -52,7 +52,7 @@ export default function RootLayout({ children }) {
           <div className="main-content">
             <AuthProvider>{children}</AuthProvider>
             <footer>
-              <img src="wsei-logo.png" style={{margin:'auto', height:'30px'}}></img>
+              <img src="/wsei-logo.png" style={{margin:'auto', height:'30px'}}></img>
             </footer>
           </div>
         </div>

@@ -4,7 +4,7 @@ h2 {
     font-weight: 700;
 }
 
-input[type=text], input[type=email], input[type=password], input[type=photo], select {
+input[type=text], input[type=email], input[type=password], input[type=url], select {
     width: 100%;
     padding: 12px 20px;
     margin: 8px 0;
@@ -30,7 +30,5 @@ input[type=text], input[type=email], input[type=password], input[type=photo], se
   }
   
   .form-div {
-    margin-left: 20%;
-    margin-top: 20px;
     border-radius: 5px;
   }
