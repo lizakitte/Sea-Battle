@@ -4,6 +4,15 @@ h2 {
     font-weight: 700;
 }
 
+.danger {
+  background-color: #dc143c !important;
+  font-weight: bold;
+}
+
+.danger:hover {
+  background-color: #cc042c !important;
+}
+
 input[type=text], input[type=email], input[type=password], input[type=url], select {
     width: 100%;
     padding: 12px 20px;

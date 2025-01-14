@@ -2,10 +2,12 @@
 
 import { signInWithEmailAndPassword, setPersistence, browserSessionPersistence } from "firebase/auth";
 import { getAuth } from 'firebase/auth'
-import { useSearchParams, useRouter } from "next/navigation";
+import { useSearchParams, useRouter, redirect } from "next/navigation";
 import "../../../styles/formStyle.css";
 import { Suspense, useState } from "react";
 import { app } from "@/app/_lib/firebase";
+import { useAuth } from "@/app/_lib/AuthContext";
+import Link from "next/link";
 
 function Login() {
     const auth = getAuth(app);
@@ -13,6 +15,16 @@ function Login() {
     const router = useRouter();
     const returnUrl = params.get("returnUrl");
     const [error, setError] = useState(false);
+
+    const { user } = useAuth();
+    if (user) {
+      return (
+        <>
+        <h1>You are already logged in!</h1>
+        <Link href="/user/signout">Log out</Link>
+        </>
+      );
+    }
     
     const onSubmit = (e) => {
       e.preventDefault();
@@ -25,7 +37,7 @@ function Login() {
           if (!userCredential.user.emailVerified) {
             router.push("/user/verify");
           } else {
-           router.push(returnUrl ?? "/");
+           router.push(returnUrl ?? "/user/profile");
           }
         })
         .catch((error) => {
