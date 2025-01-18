@@ -39,7 +39,7 @@ export default function RootLayout({ children }) {
                 <Link href="/">Home</Link>
               </li>
               <li>
-                <a href="news.asp">News</a>
+                <Link href="/user/profile">Profile</Link>
               </li>
               <li>
                 <a href="contact.asp">Contact</a>
